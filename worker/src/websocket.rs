@@ -128,7 +128,14 @@ impl WebSocket {
     /// Sends raw binary data through the `WebSocket`.
     pub fn send_with_bytes<D: AsRef<[u8]>>(&self, bytes: D) -> Result<()> {
         let slice = bytes.as_ref();
-        self.socket.send_with_u8_array(slice).map_err(Error::from)
+
+        // For some reason, `send_with_u8_array` corrupts the data.
+        // Found this workaround here:
+        // https://github.com/cloudflare/workers-rs/issues/379
+
+        let uint8_array = js_sys::Uint8Array::from(slice);
+        self.socket.send_with_array_buffer(&uint8_array.buffer())?;
+        Ok(())
     }
 
     /// Closes this channel.
