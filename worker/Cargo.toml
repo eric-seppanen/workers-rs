@@ -37,6 +37,7 @@ worker-sys = { path = "../worker-sys", version = "0.0.10" }
 [dependencies.web-sys]
 version = "0.3.63"
 features = [
+    "Crypto",
     "File",
     "WorkerGlobalScope",
     "ReadableStreamDefaultReader",
