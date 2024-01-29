@@ -240,6 +240,16 @@ impl State {
             .collect()
     }
 
+    /// Retrieve tags from a hibernatable websocket
+    pub fn get_tags(&self, websocket: &WebSocket) -> Vec<String> {
+        let tags = self.inner.get_tags(websocket.as_ref());
+        let tags: js_sys::Array = tags.dyn_into().expect("get_tags returned wrong type");
+
+        tags.iter()
+            .map(|tag| tag.as_string().expect("get_tags returned non-string value"))
+            .collect()
+    }
+
     // needs to be accessed by the `durable_object` macro in a conversion step
     pub fn _inner(self) -> DurableObjectState {
         self.inner

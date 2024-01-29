@@ -29,4 +29,7 @@ extern "C" {
     #[wasm_bindgen(method, js_name=setWebSocketAutoResponse)]
     pub fn set_websocket_auto_response(this: &DurableObjectState, request_response: WebSocketRequestResponsePair);
     */
+
+    #[wasm_bindgen(method, js_name=getTags)]
+    pub fn get_tags(this: &DurableObjectState, ws: &web_sys::WebSocket) -> wasm_bindgen::JsValue;
 }
